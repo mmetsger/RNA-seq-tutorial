@@ -3,7 +3,7 @@
 For the tutorial, we will use the bulk RNA-seq data from ageing mouse tissues (Tabula Muris project). The data is published here https://www.nature.com/articles/s41586-020-2499-y.
 From all the tissues, we select the Bone Marrow and Spleen data for 3 ages (1,12,24 m), both male and female. 
 
-To download Sequence Read Archive (SRA) data, firstly get sratoolkit [here](https://github.com/ncbi/sra-tools/wiki/01.-Downloading-SRA-Toolkit) and install it on the serever.
+To download Sequence Read Archive (SRA) data, firstly get sratoolkit [here](https://github.com/ncbi/sra-tools/wiki/01.-Downloading-SRA-Toolkit) and install it on the server.
 Get the SRR files list [here](https://github.com/mmetsger/RNA-seq-tutorial/blob/master/SRR_acc_list.txt)
 
 Next, get SRA RNA-seq data splitted in 2 reads (forward and reverse):
