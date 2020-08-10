@@ -9,8 +9,9 @@ Get the SRR files list [here](https://github.com/mmetsger/RNA-seq-tutorial/blob/
 Next, get SRA RNA-seq data splitted in 2 reads (forward and reverse):
 
  ```bash
- 
  cat SRR_acc_list.txt | parallel --jobs 10 "~/software/sratoolkit.2.9.1-1-ubuntu64/bin/fastq-dump --origfmt --gzip --split-files {}" :::
+ gunzip *.fastq.gz
+ 
  ```
 ### FASTQ quality control
  In fastq folder
@@ -63,6 +64,28 @@ cd Mouse_Ref_GRCm38
                             ./Mus_Musculus_ref_RSEM_2020
       
 ```
+
+
+### FASTQ files trimming (removing low quality bases and adapters
+
+Get and install Trimmomatic software [here](http://www.usadellab.org/cms/index.php?page=trimmomatic)
+
+```{bash}
+ls -1 *_1.fastq | sed 's:_1.fastq::' | parallel --line-buffer -j 20 'java -jar /home/mmetsger/software/Trimmomatic-0.36/trimmomatic-0.36.jar PE {}_1.fastq {}_2.fastq \
+{}_1_paired.fastq {}_1_unpaired.fastq {}_2_paired.fastq {}_2_unpaired.fastq \
+ILLUMINACLIP:NexteraPE-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 MINLEN:36'
+
+```
+### RSEM pseudoalignment and quantififcation
+
+
+```{bash}
+
+ls -1 *_1_paired.fastq | sed 's:_1_paired.fastq::' | parallel --line-buffer -j 5 'rsem-calculate-expression -p 4 
+-paired-end -bowtie2 --estimate-rspd {}_1_paired.fastq {}_2_paired.fastq /home/mmetsger/resources/Mus_Musculus_GRCm38/Mus_Musculus_ref_RSEM {}.rsem > {}.log 2> {}.err'
+
+```
+
 
 
 
